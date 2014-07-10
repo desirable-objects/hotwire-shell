@@ -1,0 +1,8 @@
+The Hotwire Shell project uses two licenses.
+
+The license for the API (parts of Hotwire for use by other programs) is
+under a simple X11-style permissive license.  See COPYING.API.
+
+The license for the user interface is avilable under the GNU General
+Public License.  See COPYING.UI.
+

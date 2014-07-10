@@ -1,0 +1,70 @@
+#!/usr/bin/python
+# This file is part of the Hotwire Shell user interface.
+#   
+# Copyright (C) 2007,2008 Colin Walters <walters@verbum.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import sys, os, logging, subprocess, shutil, tempfile
+
+import gtk, gobject, pango
+
+if __name__ == '__main__' and hasattr(sys.modules['__main__'], '__file__'):
+    basedir = os.path.dirname(os.path.abspath(__file__))
+    up_basedir = os.path.dirname(basedir)
+    if os.path.basename(basedir) == 'ui':
+        sys.path.insert(0, up_basedir)
+import hotwire
+import hotwire.sysdep
+import hotwire.logutil
+import hotwire.util
+from hotwire.version import __version__, svn_version_str
+
+try:
+    from hotwire.sysdep.ipc import Ipc
+    ipc_avail = True
+except NotImplementedError, e:
+    ipc_avail = False
+
+_logger = logging.getLogger("hotwire.GEditBlockingMain")
+
+def usage():
+    sys.stdout.write('Hotwire gedit blocking %s %s\n' % (__version__, svn_version_str()))
+    sys.stdout.write("%s [--debug] [--debug-modules=mod1,mod2...] [--help]\n" % (sys.argv[0],))
+
+def main():
+    args = sys.argv[1:]
+    
+    # Try using a future GEdit interface to blocking edit, see:
+    # http://bugzilla.gnome.org/show_bug.cgi?id=112908
+    gedit_args = ['gedit', '--wait']
+    gedit_args.extend(args)
+    retcode = subprocess.call(gedit_args)
+    if retcode == 0:
+        return
+    
+    # Fall back to a TMPDIR hack which forces a new instance, suitable
+    # for GEdit at least before 2.20.
+    newtmp = tempfile.mkdtemp('', 'hotwire-gedit')
+    newenv = dict(os.environ)
+    newenv['TMPDIR'] = newtmp
+    gedit_args = ['gedit']
+    gedit_args.extend(args)
+    retcode = subprocess.call(gedit_args, env=newenv)
+    shutil.rmtree(newtmp, ignore_errors=True)
+    sys.exit(retcode)
+    
+if __name__ == "__main__":
+    main()

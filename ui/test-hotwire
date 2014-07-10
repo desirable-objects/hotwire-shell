@@ -1,0 +1,101 @@
+#!/usr/bin/python
+# This file is part of the Hotwire Shell user interface.
+#   
+# Copyright (C) 2007 Colin Walters <walters@verbum.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import os, sys, unittest, logging, getopt
+import tempfile, shutil, locale
+
+basedir = os.path.dirname(os.path.abspath(__file__))
+up_basedir = os.path.dirname(basedir)
+if os.path.basename(basedir) == 'ui':
+    print "Running uninstalled, inserting into path: %s" % (up_basedir,)
+    sys.path.insert(0, up_basedir)
+import hotwire
+import hotwire.logutil
+from hotwire.fs import path_normalize
+import hotwire.sysdep
+import hotwire.sysdep.fs
+import hotwire.sysdep.proc_impl
+import hotwire.version
+from hotwire.version import __version__, svn_version_str
+
+_logger = logging.getLogger("hotwire.TestMain")
+
+def usage():
+    sys.stdout.write('Hotwire %s %s\n' % (__version__, svn_version_str()))
+    sys.stdout.write("%s [--debug] [--debug-modules=mod1,mod2...] [--help]\n" % (sys.argv[0],))
+
+def main():
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hd", ["help", "debug", "debug-modules="])
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+
+    debug = False
+    debug_modules = []
+    for o, v in opts:
+        if o in ('-d', '--debug'):
+            debug = True
+        elif o in ('--debug-modules'):
+            debug_modules = v.split(',')
+        elif o in ("-h", "--help"):
+            usage()
+            sys.exit()
+
+    default_log_level = logging.ERROR
+    if debug:
+        default_log_level = logging.DEBUG
+    import hotwire
+    hotwire.logutil.init(default_log_level, debug_modules, 'hotwire.')
+    
+    locale.setlocale(locale.LC_ALL, '') 
+    import gettext
+    gettext.install('hotwire')
+ 
+    import hotwire.builtin
+    hotwire.builtin.load()
+          
+    import hotwire.test_command
+    if hotwire.sysdep.is_unix():
+        import hotwire.test_command_unix
+        import hotwire.test_completion_unix
+        unix_avail = True
+    else:
+        unix_avail = False
+    import hotwire.test_completion           
+           
+    print "Running tests on %s %s" % (hotwire.version.__version__, hotwire.version.svn_version_str())
+    sys.stdout.flush()
+    tmpd = path_normalize(tempfile.mkdtemp(prefix='hotwiretest_state'))
+    _logger.info("Created temporary state dir: %s", tmpd)
+    hotwire.sysdep.fs.Filesystem.getInstance().set_override_conf_dir(tmpd) 
+    suite = unittest.TestLoader().loadTestsFromModule(hotwire.test_command)
+    unittest.TextTestRunner().run(suite)
+    suite = unittest.TestLoader().loadTestsFromModule(hotwire.test_completion)
+    unittest.TextTestRunner().run(suite)
+    if unix_avail:
+        suite = unittest.TestLoader().loadTestsFromModule(hotwire.test_command_unix)
+        unittest.TextTestRunner().run(suite)
+        suite = unittest.TestLoader().loadTestsFromModule(hotwire.test_completion_unix)
+        unittest.TextTestRunner().run(suite)        
+    _logger.info("Removing temporary state dir: %s", tmpd)
+    shutil.rmtree(tmpd, ignore_errors=True)
+
+if __name__ == '__main__':
+    main()

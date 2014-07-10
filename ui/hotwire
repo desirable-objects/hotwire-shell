@@ -1,0 +1,215 @@
+#!/usr/bin/python
+# This file is part of the Hotwire Shell user interface.
+#   
+# Copyright (C) 2007 Colin Walters <walters@verbum.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import sys, os
+
+import getopt, logging, re, string, Queue, locale
+
+import gtk, gobject, pango
+
+# workaround for segfault if we try to load them later
+try:
+    import gnome, gnome.ui, gnomevfs
+except:
+    pass
+
+if __name__ == '__main__' and hasattr(sys.modules['__main__'], '__file__'):
+    basedir = os.path.dirname(os.path.abspath(__file__))
+    up_basedir = os.path.dirname(basedir)
+    if os.path.basename(basedir) == 'ui':
+        def _pathext(path):
+            if os.access(path, os.R_OK):
+                sys.path.insert(0, path)
+        _pathext('externals/pygtk-shell')
+        
+        print "Running uninstalled, extending PYTHONPATH with: %s" % (up_basedir,)
+        sys.path.insert(0, up_basedir)
+        # Extend PATH so hotwire-editor works correctly
+        os.environ['PYTHONPATH'] = os.pathsep.join(sys.path)
+        hotapps_path = os.path.join(up_basedir, 'hotapps', 'bin')
+        os.environ['PATH'] = (basedir + os.pathsep + hotapps_path + os.pathsep + os.environ.get('PATH', ''))
+        os.environ['HOTWIRE_UNINSTALLED'] = up_basedir
+
+try:
+    import psyco
+    psyco.full() 
+except:
+    pass
+
+_logger = logging.getLogger("hotwire.Main")
+
+def on_about_dialog_url(dialog, link):
+    from hotwire.sysdep import is_windows
+    if sys.version_info[0] == 2 and sys.version_info[1] < 6 and (not is_windows()):
+        import hotwire.externals.webbrowser as webbrowser
+    else:
+        import webbrowser
+    webbrowser.open(link)
+
+def usage(ver, svnstr):
+    sys.stdout.write('Hotwire %s %s\n' % (ver, svnstr))
+    sys.stdout.write("%s [--debug] [--debug-modules=mod1,mod2...] [--help]\n" % (sys.argv[0],))
+
+def main():
+    import hotwire
+    from hotwire.version import __version__, svn_version_str
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hdsnu", ["help", "debug", "debug-modules=", "thread-debug",
+                                                          "no-persist", "unsaved",
+                                                          "minion-debug",
+                                                          "minion-thread-debug"])
+    except getopt.GetoptError:
+        usage(__version__, svn_version_str())
+        sys.exit(2)
+
+    debug = False
+    debug_modules = []
+    thread_debug = False
+    minion_debug = False
+    minion_thread_debug = False
+    new_process = False
+    unsaved = False
+    for o, v in opts:
+        if o in ('-d', '--debug'):
+            debug = True
+        elif o in ('--debug-modules'):
+            debug_modules = v.split(',')
+        elif o in ("-h", "--help"):
+            usage(__version__, svn_version_str())
+            sys.exit()
+        elif o in ('-n', '--no-persist'):
+            new_process = True
+        elif o in ('-u', '--unsaved'):
+            unsaved = True            
+        elif o in ('--thread-debug',):
+            thread_debug = True
+        elif o in ('--minion-debug',):
+            minion_debug = True
+        elif o in ('--minion-thread-debug',):
+            minion_thread_debug = True
+
+    default_log_level = logging.WARNING
+    if debug:
+        default_log_level = logging.DEBUG
+ 
+    import hotwire.logutil
+    hotwire.logutil.init(default_log_level, debug_modules, 'hotwire.')
+
+    _logger.debug("logging initialized, debug: %s", __debug__)
+
+    locale.setlocale(locale.LC_ALL, '')
+    fs_encoding = sys.getfilesystemencoding()
+    stdin_encoding = sys.stdin.encoding
+    _logger.debug("recoding paths to %r, args to %r", fs_encoding, stdin_encoding)    
+    import gettext
+    gettext.install('hotwire')
+
+    if thread_debug:
+        hotwire.util.start_thread_dump_task(7000, sys.stderr)
+    if minion_thread_debug:
+        hotwire.minion.thread_debug = True
+    if minion_debug:
+        hotwire.minion.minion_debug = True
+
+	# Do all these imports after we've initialized the basics, like logging
+
+    import hotwire.sysdep
+    import hotwire.pluginsystem
+    import hotwire.util
+    import hotwire.builtin
+    import hotwire.completion
+    from hotwire_ui.shell import HotWindowFactory
+	
+    hotwire.builtin.load()
+    
+    import hotwire_ui.adaptors
+    hotwire_ui.adaptors.load()
+    
+    try:
+        from hotwire.sysdep.ipc import Ipc
+        ipc_avail = True
+    except NotImplementedError, e:
+        ipc_avail = False
+
+    ipc = None
+    if not ipc_avail:
+        _logger.warn("No IPC subsystem available for this platform")
+    elif not new_process:
+        ipc = Ipc.getInstance()
+        try:
+            hotw_exists = ipc.singleton()
+            if hotw_exists:
+                _logger.info("Existing Hotwire instance detected")
+                ipc.new_window()
+                gtk.gdk.notify_startup_complete()
+                sys.exit(0)
+        except NotImplementedError, e:
+            _logger.warn("No IPC subsystem available for this platform")
+            pass
+
+    # We move to the root directory to make debugging things which don't
+    # use hotwire.get_cwd() easier
+    os.chdir('/')
+
+    _logger.debug('initializing threads')
+    gobject.threads_init()
+        
+    if unsaved:
+        import hotwire.state
+        hotwire.state.History.getInstance().set_no_save()
+
+    hotwire.pluginsystem.load_plugins()
+
+    # Random global GTK+-related initialization
+    gtk.about_dialog_set_url_hook(on_about_dialog_url)
+    gtk.rc_parse_string('''
+style "hotwire-tab-close" {
+  xthickness = 0
+  ythickness = 0
+}
+widget "*hotwire-tab-close" style "hotwire-tab-close"
+''')
+
+    if os.getenv('HOTWIRE_UNINSTALLED'):
+        theme = gtk.icon_theme_get_default()
+        imgpath = os.path.join(os.getenv('HOTWIRE_UNINSTALLED'), 'images')
+        _logger.debug("appending to icon theme: %s", imgpath)
+        theme.prepend_search_path(imgpath)
+        theme.rescan_if_needed()
+    
+        
+    hotwire_kwargs = {}
+    if len(args) > 0:
+        hotwire_kwargs['initcwd'] = args[0]
+        hotwire_kwargs['initcmd'] = 'ls'
+
+    w = HotWindowFactory.getInstance().create_initial_window(subtitle=(new_process and _(' (Unshared)') or ''), **hotwire_kwargs)
+    w.show()
+    if ipc_avail and (not new_process):
+        ipc.register_window(w)
+
+    gtk.gdk.notify_startup_complete()
+
+    _logger.debug('entering mainloop')
+    gtk.gdk.threads_enter()
+    gtk.main()
+    gtk.gdk.threads_leave()
+
+if __name__ == "__main__":
+    main()

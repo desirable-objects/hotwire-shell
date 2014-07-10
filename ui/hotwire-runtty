@@ -1,0 +1,64 @@
+#!/usr/bin/python
+# This file is part of the Hotwire Shell user interface.
+#   
+# Copyright (C) 2007 Colin Walters <walters@verbum.org>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+import sys, os, getopt, logging, re, string, Queue
+
+import gtk, gobject, pango
+
+if __name__ == '__main__' and hasattr(sys.modules['__main__'], '__file__'):
+    basedir = os.path.dirname(os.path.abspath(__file__))
+    up_basedir = os.path.dirname(basedir)
+    if os.path.basename(basedir) == 'ui':
+        sys.path.insert(0, up_basedir)
+import hotwire
+import hotwire.sysdep
+import hotwire.logutil
+import hotwire.util
+from hotwire.version import __version__, svn_version_str
+
+try:
+    from hotwire.sysdep.ipc import Ipc
+    ipc_avail = True
+except NotImplementedError, e:
+    ipc_avail = False
+
+_logger = logging.getLogger("hotwire.RunMain")
+
+def usage():
+    sys.stdout.write('hotwire-run %s %s\n' % (__version__, svn_version_str()))
+
+def main():
+    args = sys.argv[1:]
+    
+    if len(args) == 0:
+      sys.stderr.write('no arguments specified, exiting\n')
+      sys.exit(1)
+
+    default_log_level = logging.ERROR
+    hotwire.logutil.init(default_log_level, [], 'hotwire.')
+
+    _logger.debug('initializing threads')
+    gobject.threads_init()
+    
+    from hotwire.sysdep.ipc import Ipc
+    ipc = Ipc.getInstance()
+    ipc.run_tty(os.getcwd(), args)		
+
+if __name__ == "__main__":
+    main()

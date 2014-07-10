@@ -1,0 +1,532 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-12-02 11:58-0500\n"
+"PO-Revision-Date: 2007-12-02 02:53-0500\n"
+"Last-Translator: Colin Walters <walters@verbum.org>\n"
+"Language-Team: SWEDISH CHEFS ROCK <bork@bork.example.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"borkProject-Id-Version: hotwire 0.620\n"
+
+#: ../hotwire_ui/shell.py:201
+msgid "Hotwire Python Command"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:326
+#, python-format
+msgid "Failed to parse pipeline: %s"
+msgstr "bork %s"
+
+#: ../hotwire_ui/shell.py:351
+#, python-format
+msgid "No matches for <b>%s</b>"
+msgstr "bork %s"
+
+#: ../hotwire_ui/shell.py:360
+#, python-format
+msgid "<tt>%s</tt> to <tt>%s</tt>"
+msgstr "bork %s %s"
+
+#: ../hotwire_ui/shell.py:362
+msgid "Resolved: "
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:830
+msgid "_File"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:831
+msgid "New T_erminal Tab"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:832
+msgid "Open a new terminal tab"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:833
+msgid "_Close"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:834
+msgid "Close the current tab"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:835
+msgid "_Edit"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:836
+msgid "_View"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:837
+msgid "_Control"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:838 ../hotwire_ui/prefs.py:14
+msgid "Preferences"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:838
+msgid "Change preferences"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:839
+msgid "_Tools"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:840
+msgid "_Python Workpad"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:840
+msgid "Launch Python evaluator"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:841
+msgid "_Help"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:841
+msgid "Display help command"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:842
+msgid "_About"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:842
+msgid "About Hotwire"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:845
+msgid "_New Window"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:846
+msgid "Open a new window"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:847
+msgid "New _Tab"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:848
+msgid "Open a new tab"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:866
+msgid "Hotwire PyShell"
+msgstr "bork"
+
+#: ../hotwire_ui/shell.py:935
+msgid ""
+"A Python-based object oriented\n"
+"crossplatform command execution shell\n"
+"\n"
+msgstr "bork\n"
+
+#: ../hotwire_ui/shell.py:1062
+#, python-format
+msgid "%s - Hotwire"
+msgstr "%s - bork"
+
+#: ../hotwire_ui/command.py:180
+#, python-format
+msgid "%d objects"
+msgstr "%d bork"
+
+#: ../hotwire_ui/command.py:185
+msgid " Output type: "
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:223
+msgid "Waiting..."
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:225
+msgid "Cancelled"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:227
+msgid "Undone"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:229
+msgid "Exception"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:231
+msgid "Executing"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:233
+msgid "Complete"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:401
+msgid "_Copy"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:401
+msgid "Copy output"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:402
+msgid "_Cancel"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:402
+msgid "Cancel current command"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:403
+msgid "_Undo"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:403
+msgid "Undo current command"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:404
+msgid "_Search"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:404
+msgid "Search output"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:405
+msgid "_Input"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:405
+msgid "Send input"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:406
+msgid "Output _Top"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:406
+msgid "Scroll to output top"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:407
+msgid "Output _Bottom"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:407
+msgid "Scroll to output bottom"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:408
+msgid "Output Page _Up"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:408
+msgid "Scroll output up"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:409
+msgid "Output Page _Down"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:409
+msgid "Scroll output down"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:410
+msgid "_To Window"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:410
+msgid "Create window from output"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:411
+msgid "_Previous"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:411
+msgid "View previous command"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:412
+msgid "_Next"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:412
+msgid "View next command"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:415
+msgid "_Overview"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:415
+msgid "Toggle overview"
+msgstr "bork"
+
+#: ../hotwire_ui/command.py:741
+#, python-format
+msgid " %d commands"
+msgstr "%d bork"
+
+#: ../hotwire_ui/command.py:743
+#, python-format
+msgid " %d executing, <b>%d complete</b>"
+msgstr "%d bork %d bork"
+
+#: ../hotwire_ui/command.py:745
+#, python-format
+msgid " <b>%d complete</b>"
+msgstr "%d bork"
+
+#: ../hotwire_ui/command.py:747
+#, python-format
+msgid " %d executing"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/file.py:39
+msgid "Path"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/file.py:50
+msgid "Size"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/file.py:55
+msgid "Last Modified"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/file.py:61 ../hotwire_ui/renderers/ps.py:7
+msgid "Owner"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/file.py:67
+msgid "Group"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/file.py:72
+msgid "Permissions"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/file.py:77
+msgid "File Type"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/ps.py:6
+msgid "PID"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/ps.py:8
+msgid "Command"
+msgstr "%d bork"
+
+#: ../hotwire_ui/renderers/help.py:18
+msgid "New to Hotwire?"
+msgstr "Bork bork bork?"
+
+#: ../hotwire_ui/renderers/help.py:20
+msgid "View Tutorial"
+msgstr "Bork Bork"
+
+#: ../hotwire_ui/renderers/help.py:22
+msgid "Important Keybindings"
+msgstr "Bork Bork"
+
+#: ../hotwire_ui/renderers/help.py:23 ../hotwire_ui/renderers/help.py:25
+#: ../hotwire_ui/renderers/help.py:30
+msgid "and"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:23
+msgid "Choose completions"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:24
+msgid "Search history"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:25
+msgid "or"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:25
+msgid "Switch tabs"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:27
+msgid "See the menu for other keybindings."
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:29
+msgid "The entry accepts Emacs/readline style input; for example:"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:30
+msgid "Beginning/end of line"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:33
+msgid "Builtin Commands"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:44
+msgid "in"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:47
+#, fuzzy
+msgid "out"
+msgstr "bork"
+
+#: ../hotwire_ui/renderers/help.py:60
+#, fuzzy
+msgid "Options"
+msgstr "bork"
+
+#: ../hotwire_ui/prefs.py:35
+msgid "General"
+msgstr "bork"
+
+#: ../hotwire_ui/prefs.py:41 ../hotwire_ui/prefs.py:63
+msgid "Interface"
+msgstr "Bork"
+
+#: ../hotwire_ui/prefs.py:45
+msgid "Disable menu access keys"
+msgstr "bork"
+
+#: ../hotwire_ui/prefs.py:49
+msgid "Enable Unix \"Readline\" keys (Ctrl-A, Alt-F, Ctrl-K, etc.)"
+msgstr "bork"
+
+#: ../hotwire_ui/prefs.py:57
+#, fuzzy
+msgid "Terminal"
+msgstr "bork"
+
+#: ../hotwire_ui/prefs.py:71
+msgid "Foreground Color: "
+msgstr "bork"
+
+#: ../hotwire_ui/prefs.py:80
+msgid "Background Color: "
+msgstr "bork"
+
+#: ../hotwire/builtins/cat.py:8
+msgid "Concatenate files."
+msgstr "bork"
+
+#: ../hotwire/builtins/cp.py:11
+msgid "Copy sources to destination."
+msgstr "bork"
+
+#: ../hotwire/builtins/cp.py:20 ../hotwire/builtins/cp.py:31
+#: ../hotwire/builtins/mv.py:19 ../hotwire/builtins/mv.py:30
+msgid "Need source and destination"
+msgstr "bork"
+
+#: ../hotwire/builtins/cp.py:33
+msgid "Can't copy multiple items to non-directory"
+msgstr "bork"
+
+#: ../hotwire/builtins/current.py:4
+msgid "Returns objects generated by currently visible command."
+msgstr "bork"
+
+#: ../hotwire/builtins/edit.py:10
+msgid "Launch the text editor."
+msgstr "bork"
+
+#: ../hotwire/builtins/fsearch.py:21
+msgid "Search directory tree for files matching a regular expression."
+msgstr "bork"
+
+#: ../hotwire/builtins/fsearch.py:52
+msgid "Failed searching file"
+msgstr "bork"
+
+#: ../hotwire/builtins/help.py:9
+msgid "Display help."
+msgstr "bork"
+
+#: ../hotwire/builtins/kill.py:53
+msgid "Send a signal to a process."
+msgstr "bork"
+
+#: ../hotwire/builtins/ls.py:13
+msgid "List contents of a directory."
+msgstr "bork"
+
+#: ../hotwire/builtins/mkdir.py:11
+msgid "Create directories."
+msgstr "bork"
+
+#: ../hotwire/builtins/mkdir.py:20
+msgid "Need directory to create"
+msgstr "bork"
+
+#: ../hotwire/builtins/mv.py:10
+msgid "Rename initial arguments to destination."
+msgstr "bork"
+
+#: ../hotwire/builtins/mv.py:32
+msgid "Can't move multiple items to non-directory"
+msgstr "bork"
+
+#: ../hotwire/builtins/open.py:7
+msgid "Open a file using default program."
+msgstr "bork"
+
+#: ../hotwire/builtins/prop.py:7
+msgid "Return the property of an object."
+msgstr "bork"
+
+#: ../hotwire/builtins/proc.py:7
+msgid "List processes."
+msgstr "bork"
+
+#: ../hotwire/builtins/py.py:4
+msgid "Process objects using Python code."
+msgstr "bork"
+
+#: ../hotwire/builtins/rm.py:11
+msgid "Move a file to the trash."
+msgstr "bork"
+
+#: ../hotwire/builtins/sechash.py:9
+msgid "Create a secure hash (default SHA1) from objects or file arguments."
+msgstr "bork"
+
+#: ../hotwire/builtins/sh.py:45
+msgid "Execute a system shell command, returning output as text."
+msgstr "bork"
+
+#: ../hotwire/builtins/sh.py:237
+#, python-format
+msgid "signal %d"
+msgstr "bork %d"
+
+#: ../hotwire/builtins/sh.py:238
+#, python-format
+msgid "Exit %s"
+msgstr "bork %s"
+
+#: ../hotwire/builtins/term.py:4
+msgid "Execute a system command in a new terminal."
+msgstr "bork"
+
+#: ../hotwire/builtins/write.py:9
+msgid "Save stream to files."
+msgstr "bork"

@@ -1,0 +1,12 @@
+include hotwire.desktop
+include COPYING
+include COPYING.UI
+include COPYING.API
+include hotwire.spec
+include images/*.png
+include images/*.gif
+include images/*.ico
+include ui/test-hotwire
+include DistUtilsExtra/*
+include DistUtilsExtra/command/*
+include po/POTFILES.in
